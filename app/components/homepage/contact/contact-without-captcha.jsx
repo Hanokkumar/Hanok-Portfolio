@@ -35,7 +35,7 @@ function ContactWithoutCaptcha() {
     const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
     const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
     const options = { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY };
-    const res = await axios.post('http://3.109.148.179/EmailAPi/api/Mail',{
+    const res = await axios.post('https://3.109.148.179/EmailAPi/api/Mail',{
       FromMailid:"hanok.official.in@gmail.com",
       ToMailid:"itsmehanok2001@gmail.com",
       CcMailid: "",
@@ -198,7 +198,7 @@ function ContactWithoutCaptcha() {
               role="button"
               onClick={handleSendMail}
             >
-              <span>Send Messagessss</span>
+              <span>Send Message</span>
               <TbMailForward className="mt-1" size={18} />
             </button>
           </div>
