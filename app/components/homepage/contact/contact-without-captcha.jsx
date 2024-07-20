@@ -21,6 +21,7 @@ function ContactWithoutCaptcha() {
   };
 
   const handleSendMail = async (e) => {
+    console.log(userInput,'userInput')
     e.preventDefault();
     if (!userInput.email || !userInput.message || !userInput.name) {
       setError({ ...error, required: true });
@@ -34,10 +35,89 @@ function ContactWithoutCaptcha() {
     const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
     const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
     const options = { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY };
+    const res = await axios.post('http://3.109.148.179/EmailAPi/api/Mail',{
+      FromMailid:"hanok.official.in@gmail.com",
+      ToMailid:"itsmehanok2001@gmail.com",
+      CcMailid: "",
+      CcMailid1: "",
+      CcMailid2: "" ,
+      
+      Subject:` Inquiry from ${userInput.name} - Potential Collaboration/Project Discussion`,
+      SmtpServer:"smtp.gmail.com",
+      MailPassowrd:"xbfa fagn tfna zrej",
+      Body:`<p>Dear Hanok,</p>
 
+      <p>I hope this message finds you well.</p>
+      
+      <p>My name is ${userInput.name} and I recently visited your portfolio. I was impressed with your work and wanted to reach out to you.</p>
+      
+      <p>Here are my details:</p>
+      
+      <p>Name: ${userInput.name}<br>
+      Email: ${userInput.email}<br>
+      Description: ${userInput.message}</p>
+      
+      <p>I am interested in discussing potential collaboration opportunities or seeking your expertise on a project. Please let me know when you might be available for a conversation or a meeting.</p>
+      
+      <p>Looking forward to your response.</p>
+      
+      <p>Best regards,</p>
+      
+      <p>${userInput.name}</p>`,
+      
+
+      // Body:`<p>Dear Sir/Madam,</p>
+
+      // <p>I hope this email finds you well.</p>
+      
+      // <p>An amendment has been made to a sales order for our esteemed customer, ${customerNameHelp.label}, with the following details:</p>
+      
+      // <p>Order Number: ${localStorage.getItem('SalesOrderId')}<br>
+      // Date of Order: ${sodate}<br>
+      // Amended by:${localStorage.getItem('UserName')}<br>
+      // Amended on: ${ (moment(new Date()).format("YYYY-MM-DD"))}</p>
+      
+      // <p>Your approval for this amended sales order is urgently required to proceed with the necessary steps for processing and fulfillment.</p>
+      
+      // <p>To review and approve the amended sales order, please access the following URL which will direct you to the approval screen:</p>
+      
+     
+      
+      // <p>Regards,</p>
+      
+      //   <p>${localStorage.getItem('UserName')}</p>`,
+      SmtpPort:587,
+      Filepathattach:""
+
+
+   },
+  )  
+  if (res.status === 200 ) {
+    toast.success('Message sent successfully!');
+    setUserInput({
+      name: '',
+      email: '',
+      message: '',
+    });
+  };
     try {
       const res = await emailjs.send(serviceID, templateID, userInput, options);
-      const teleRes = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/contact`, userInput);
+      // const teleRes = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/contact`, userInput);
+
+  
+    
+    
+      //  ).then((res)=> {
+        
+       
+      //  })
+      
+      
+       // toastr.success('Mail Sent Successfully', 'Approval')
+    
+    
+      
+    
 
       if (res.status === 200 || teleRes.status === 200) {
         toast.success('Message sent successfully!');
@@ -118,7 +198,7 @@ function ContactWithoutCaptcha() {
               role="button"
               onClick={handleSendMail}
             >
-              <span>Send Message</span>
+              <span>Send Messagessss</span>
               <TbMailForward className="mt-1" size={18} />
             </button>
           </div>

@@ -9,7 +9,7 @@ import { TbMailForward } from "react-icons/tb";
 import { toast } from 'react-toastify';
 
 function ContactWithCaptcha() {
-  const [input, setInput] = useState({
+  const [userInput, setUserInput] = useState({
     name: '',
     email: '',
     message: '',
@@ -21,7 +21,7 @@ function ContactWithCaptcha() {
   });
 
   const checkRequired = () => {
-    if (input.email && input.message && input.name) {
+    if (userInput.email && userInput.message && userInput.name) {
       setError({ ...error, required: false });
     }
   };
@@ -33,7 +33,7 @@ function ContactWithCaptcha() {
       return;
     };
 
-    if (!input.email || !input.message || !input.name) {
+    if (!userInput.email || !userInput.message || !userInput.name) {
       setError({ ...error, required: true });
       return;
     } else if (error.email) {
@@ -49,7 +49,7 @@ function ContactWithCaptcha() {
     try {
       const res = await emailjs.send(serviceID, templateID, userInput, options);
       const teleRes = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/contact`, userInput);
-
+console.log(userInput)
       if (res.status === 200 || teleRes.status === 200) {
         toast.success('Message sent successfully!');
         setUserInput({
@@ -81,9 +81,9 @@ function ContactWithCaptcha() {
               type="text"
               maxLength="100"
               required={true}
-              onChange={(e) => setInput({ ...input, name: e.target.value })}
+              onChange={(e) => setUserInput({ ...userInput, name: e.target.value })}
               onBlur={checkRequired}
-              value={input.name}
+              value={userInput.name}
             />
           </div>
 
@@ -94,11 +94,11 @@ function ContactWithCaptcha() {
               type="email"
               maxLength="100"
               required={true}
-              value={input.email}
-              onChange={(e) => setInput({ ...input, email: e.target.value })}
+              value={userInput.email}
+              onChange={(e) => setUserInput({ ...userInput, email: e.target.value })}
               onBlur={() => {
                 checkRequired();
-                setError({ ...error, email: !isValidEmail(input.email) });
+                setError({ ...error, email: !isValidEmail(userInput.email) });
               }}
             />
             {error.email &&
@@ -113,10 +113,10 @@ function ContactWithCaptcha() {
               maxLength="500"
               name="message"
               required={true}
-              onChange={(e) => setInput({ ...input, message: e.target.value })}
+              onChange={(e) => setUserInput({ ...userInput, message: e.target.value })}
               onBlur={checkRequired}
               rows="4"
-              value={input.message}
+              value={userInput.message}
             />
           </div>
           <ReCAPTCHA
